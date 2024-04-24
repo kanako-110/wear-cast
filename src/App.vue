@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HomeIndex from "./pages/Home/index.vue";
+import HomeIndex from "@/pages/Home/index.vue";
 
 export default defineComponent({
   name: "App",
