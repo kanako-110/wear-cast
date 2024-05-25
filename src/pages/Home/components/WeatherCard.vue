@@ -2,7 +2,11 @@
   <!-- TODO: loading UI -->
   <template v-if="!loaded"> loading... </template>
   <template v-else>
-    <v-card :title="currentWeather.city_name" subtitle="Apr 24" width="60%">
+    <v-card
+      :title="currentWeather.city_name"
+      :subtitle="todaysWeather.datetime"
+      width="60%"
+    >
       <!-- TODO; style -->
       <v-card-text>
         <v-row align="center">
@@ -18,12 +22,14 @@
           <v-col class="text-center" cols="4">
             <div class="temperature-wrapper d-flex justify-center">
               <div>
-                <p class="text-body-1 mb-1">H:25&deg;C</p>
-                <p>(-2&deg;C)</p>
+                <p class="text-body-1 mb-1">
+                  H: {{ todaysWeather.max_temp }}&deg;C
+                </p>
               </div>
               <div class="ml-3">
-                <p class="text-body-1 mb-1">L:14&deg;C</p>
-                <p>(+4&deg;C)</p>
+                <p class="text-body-1 mb-1">
+                  L: {{ todaysWeather.min_temp }} &deg;C
+                </p>
               </div>
             </div>
             <p class="mt-4">
@@ -32,7 +38,7 @@
                 icon="mdi-umbrella-outline"
                 width="24"
               />
-              <span class="text-body-2"> 10% </span>
+              <span class="text-body-2"> {{ todaysWeather.pop }}% </span>
             </p>
           </v-col>
           <v-col class="text-center" cols="4">
@@ -48,21 +54,35 @@
   </template>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, computed } from "vue";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
+import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
 
 export default defineComponent({
   name: "WeatherCard",
   setup() {
-    const { currentWeather, loaded, getCurrentWeather } = useCurrentWeather();
+    const {
+      currentWeather,
+      loaded: loadedCurrentWeather,
+      getCurrentWeather,
+    } = useCurrentWeather();
+
+    const {
+      todaysWeather,
+      loaded: loadedDailyWeatherForecast,
+      getDailyWeatherForecast,
+    } = useDailyWeatherWeather();
+
+    const loaded = computed(
+      () => loadedCurrentWeather.value && loadedDailyWeatherForecast.value
+    );
 
     onMounted(() => {
       getCurrentWeather("Vancouver");
+      getDailyWeatherForecast("Vancouver");
     });
 
-    // TODO; delete later
-    console.log(currentWeather);
-    return { currentWeather, loaded };
+    return { currentWeather, loaded, todaysWeather };
   },
 });
 </script>
