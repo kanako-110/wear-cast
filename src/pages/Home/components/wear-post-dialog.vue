@@ -54,14 +54,16 @@ export default defineComponent({
     },
   },
   setup(_, { emit }) {
-    const input = reactive({
-      name: "",
-      caption: "",
-      image: undefined,
-    });
+    const INITIAL_INPUT = { name: "", caption: "", image: undefined };
+
+    const input = reactive({ ...INITIAL_INPUT });
     const loading = ref(false);
+
     const closeDialog = () => {
       emit("update:modelValue", false);
+      for (const key in input) {
+        input[key] = INITIAL_INPUT[key];
+      }
     };
 
     const submit = async () => {
@@ -74,7 +76,6 @@ export default defineComponent({
       try {
         loading.value = true;
         // Upload the file to Firebase Storage
-        console.log({ file });
         const snapshot = await uploadBytes(storageReference, file);
 
         // Get the file's download URL
