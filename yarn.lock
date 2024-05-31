@@ -1213,11 +1213,6 @@ vite@^5.2.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vue-demi@latest:
-  version "0.14.7"
-  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.7.tgz#8317536b3ef74c5b09f268f7782e70194567d8f2"
-  integrity sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==
-
 vue-template-compiler@^2.7.14:
   version "2.7.16"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.16.tgz#c81b2d47753264c77ac03b9966a46637482bb03b"
@@ -1245,13 +1240,6 @@ vue@^3.4.21:
     "@vue/runtime-dom" "3.4.23"
     "@vue/server-renderer" "3.4.23"
     "@vue/shared" "3.4.23"
-
-vuefire@^3.1.23:
-  version "3.1.23"
-  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-3.1.23.tgz#632758d3d2468691bda7938e8d3bfb8f93692d71"
-  integrity sha512-bCz/3hw50+oilLBrUWQRRQccfhj0VeU8E+NZmFRnUe6D70yAMblRahLrQLmG6KBesJJeXexOEpRElP4pMq6zxA==
-  dependencies:
-    vue-demi latest
 
 vuetify@^3.5.16:
   version "3.5.16"

@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "@/firebaseConfig";
 import {
   ref as storageRef,
@@ -84,6 +84,7 @@ export default defineComponent({
           user_name: input.name,
           caption: input.caption,
           imageUrl: downloadURL,
+          createdAt: serverTimestamp(),
         });
         closeDialog();
       } catch (e) {
