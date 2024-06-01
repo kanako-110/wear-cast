@@ -10,12 +10,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted } from "vue";
 import WeatherCard from "@/pages/Home/components/WeatherCard.vue";
 import WearImages from "@/pages/Home/components/WearImages.vue";
 import HeaderToolbar from "@/pages/Home/components/header-toolbar.vue";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { db, storage } from "@/firebaseConfig";
+import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 
 export default defineComponent({
   name: "HomeIndex",
@@ -25,23 +24,7 @@ export default defineComponent({
     HeaderToolbar,
   },
   setup() {
-    const outfitPosts = ref([]);
-
-    const fetchOutfitsPost = async () => {
-      try {
-        const q = query(
-          collection(db, "outfits"),
-          orderBy("createdAt", "desc")
-        );
-        const querySnapshot = await getDocs(q);
-        outfitPosts.value = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-      } catch (e) {
-        console.error("Error fetching documents: ", e);
-      }
-    };
+    const { outfitPosts, fetchOutfitsPost } = useOutfitPosts();
 
     onMounted(() => {
       fetchOutfitsPost();

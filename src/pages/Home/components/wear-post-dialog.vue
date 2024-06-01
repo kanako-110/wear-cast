@@ -82,7 +82,7 @@ export default defineComponent({
         const downloadURL = await getDownloadURL(snapshot.ref);
 
         await addDoc(collection(db, "outfits"), {
-          user_name: input.name,
+          useName: input.name,
           caption: input.caption,
           imageUrl: downloadURL,
           createdAt: serverTimestamp(),
