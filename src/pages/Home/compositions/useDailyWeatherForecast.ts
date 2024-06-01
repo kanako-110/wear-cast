@@ -2,7 +2,7 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useDailyWeatherWeather = () => {
-  const todaysWeather = ref();
+  const todaysWeather = ref({});
   const loaded = ref(false);
 
   const getDailyWeatherForecast = async (city: string) => {

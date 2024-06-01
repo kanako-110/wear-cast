@@ -59,39 +59,33 @@ import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeathe
 
 export default defineComponent({
   name: "WeatherCard",
-  setup() {
-    // move to index?
-    const {
-      currentWeather,
-      loaded: loadedCurrentWeather,
-      getCurrentWeather,
-    } = useCurrentWeather();
-
-    const {
-      todaysWeather,
-      loaded: loadedDailyWeatherForecast,
-      getDailyWeatherForecast,
-    } = useDailyWeatherWeather();
-
-    const loaded = computed(
-      () => loadedCurrentWeather.value && loadedDailyWeatherForecast.value
-    );
-
+  props: {
+    currentWeather: {
+      // TODO: type
+      type: Object,
+      required: true,
+    },
+    todaysWeather: {
+      // TODO: type
+      type: Object,
+      required: true,
+    },
+    loaded: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  setup(props) {
     const weatherIcon = computed(() => {
       return {
         url:
-          `https://www.weatherbit.io/static/img/icons/${todaysWeather.value.weather.icon}.png` ||
+          `https://www.weatherbit.io/static/img/icons/${props.todaysWeather.weather.icon}.png` ||
           "",
-        description: todaysWeather.value.weather.description,
+        description: props.todaysWeather.weather.description,
       };
     });
 
-    onMounted(() => {
-      getCurrentWeather("Vancouver");
-      getDailyWeatherForecast("Vancouver");
-    });
-
-    return { currentWeather, loaded, todaysWeather, weatherIcon };
+    return { weatherIcon };
   },
 });
 </script>
