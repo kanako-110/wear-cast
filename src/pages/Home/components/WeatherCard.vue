@@ -11,11 +11,10 @@
       <v-card-text>
         <v-row align="center">
           <v-col class="text-center" cols="4">
-            <v-icon
-              aria-label="sunny"
-              color="error"
-              icon="mdi-white-balance-sunny"
-              size="160"
+            <img
+              width="80%"
+              :src="weatherIcon.url"
+              :alt="weatherIcon.description"
             />
             <p class="text-h5 mt-4">{{ currentWeather.temp }}&deg;C</p>
           </v-col>
@@ -61,6 +60,7 @@ import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeathe
 export default defineComponent({
   name: "WeatherCard",
   setup() {
+    // move to index?
     const {
       currentWeather,
       loaded: loadedCurrentWeather,
@@ -77,12 +77,21 @@ export default defineComponent({
       () => loadedCurrentWeather.value && loadedDailyWeatherForecast.value
     );
 
+    const weatherIcon = computed(() => {
+      return {
+        url:
+          `https://www.weatherbit.io/static/img/icons/${todaysWeather.value.weather.icon}.png` ||
+          "",
+        description: todaysWeather.value.weather.description,
+      };
+    });
+
     onMounted(() => {
       getCurrentWeather("Vancouver");
       getDailyWeatherForecast("Vancouver");
     });
 
-    return { currentWeather, loaded, todaysWeather };
+    return { currentWeather, loaded, todaysWeather, weatherIcon };
   },
 });
 </script>
