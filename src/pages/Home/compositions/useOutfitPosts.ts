@@ -15,6 +15,7 @@ type Post = {
 
 export const useOutfitPosts = () => {
   const outfitPosts = ref<Post[]>([]);
+  const loaded = ref(false);
 
   const fetchOutfitsPost = async () => {
     try {
@@ -27,7 +28,8 @@ export const useOutfitPosts = () => {
     } catch (e) {
       console.error("Error fetching documents: ", e);
     }
+    loaded.value = true;
   };
 
-  return { outfitPosts, fetchOutfitsPost };
+  return { outfitPosts, loaded, fetchOutfitsPost };
 };

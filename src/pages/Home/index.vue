@@ -10,7 +10,7 @@
   <div class="mt-9">
     <!-- TODO; refetch when posted? -->
     <!-- TODO; add loading -->
-    <wear-images :posts="outfitPosts" />
+    <wear-images :posts="outfitPosts" :loaded="loadedOutfitPosts" />
   </div>
 </template>
 
@@ -31,7 +31,11 @@ export default defineComponent({
     HeaderToolbar,
   },
   setup() {
-    const { outfitPosts, fetchOutfitsPost } = useOutfitPosts();
+    const {
+      outfitPosts,
+      loaded: loadedOutfitPosts,
+      fetchOutfitsPost,
+    } = useOutfitPosts();
     const {
       currentWeather,
       loaded: loadedCurrentWeather,
@@ -55,7 +59,13 @@ export default defineComponent({
       fetchOutfitsPost();
     });
 
-    return { outfitPosts, currentWeather, todaysWeather, loadedWeather };
+    return {
+      outfitPosts,
+      currentWeather,
+      todaysWeather,
+      loadedWeather,
+      loadedOutfitPosts,
+    };
   },
 });
 </script>
