@@ -1,4 +1,4 @@
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "@/firebaseConfig";
 import {
@@ -6,9 +6,9 @@ import {
   getDownloadURL,
   uploadBytes,
 } from "firebase/storage";
-import type { Input } from "@/pages/Home/components/wear-post-dialog.vue";
+import type { Input } from "@/pages/Home/components/OutfitPostDialog.vue";
 
-export const useClothesForm = () => {
+export const useOutfitForm = () => {
   const loading = ref(false);
 
   const submit = async (input: Input, onSuccess: () => void) => {

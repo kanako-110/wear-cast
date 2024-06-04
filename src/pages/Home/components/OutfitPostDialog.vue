@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import { useClothesForm } from "@/pages/Home/compositions/useClothesForm.ts";
+import { useOutfitForm } from "@/pages/Home/compositions/useOutfitForm";
 
 export type Input = {
   name: string;
@@ -45,8 +45,7 @@ export type Input = {
 };
 
 export default defineComponent({
-  // outfitsに変える
-  name: "WearPostDialog",
+  name: "OutfitPostDialog",
   props: {
     modelValue: {
       type: Boolean,
@@ -69,7 +68,7 @@ export default defineComponent({
       }
     };
 
-    const { submit, loading } = useClothesForm();
+    const { submit, loading } = useOutfitForm();
 
     const handleSubmit = () => submit(input, closeDialog);
 

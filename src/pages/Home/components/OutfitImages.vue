@@ -28,7 +28,7 @@ import { defineComponent, PropType } from "vue";
 import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
 
 export default defineComponent({
-  name: "WearImages",
+  name: "OutfitImages",
   props: {
     posts: {
       type: Array as PropType<Post[]>,
