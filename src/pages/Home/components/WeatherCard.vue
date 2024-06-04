@@ -53,21 +53,19 @@
   </template>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, computed } from "vue";
-import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
-import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
+import { defineComponent, computed, PropType } from "vue";
+import type { TodaysWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
+import type { CurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 
 export default defineComponent({
   name: "WeatherCard",
   props: {
-    currentWeather: {
-      // TODO: type
-      type: Object,
+    todaysWeather: {
+      type: Object as PropType<TodaysWeather>,
       required: true,
     },
-    todaysWeather: {
-      // TODO: type
-      type: Object,
+    currentWeather: {
+      type: Object as PropType<CurrentWeather>,
       required: true,
     },
     loaded: {
@@ -79,9 +77,9 @@ export default defineComponent({
     const weatherIcon = computed(() => {
       return {
         url:
-          `https://www.weatherbit.io/static/img/icons/${props.todaysWeather.weather.icon}.png` ||
+          `https://www.weatherbit.io/static/img/icons/${props.todaysWeather.weather?.icon}.png` ||
           "",
-        description: props.todaysWeather.weather.description,
+        description: props.todaysWeather.weather?.description,
       };
     });
 

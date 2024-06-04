@@ -9,6 +9,7 @@
         :key="post.id"
         cols="3"
       >
+        <!-- TODO; make sure not to download all at the same time -->
         <v-img
           :lazy-src="post.imageUrl"
           alt="outfit image"
@@ -23,14 +24,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
 
 export default defineComponent({
   name: "WearImages",
   props: {
     posts: {
-      // type
-      type: Array,
+      type: Array as PropType<Post[]>,
       required: true,
     },
     loaded: {

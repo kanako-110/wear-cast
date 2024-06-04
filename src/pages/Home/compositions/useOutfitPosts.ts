@@ -9,7 +9,7 @@ type OutfitData = {
   caption: string | undefined;
 };
 
-type Post = {
+export type Post = {
   id: string;
 } & OutfitData;
 

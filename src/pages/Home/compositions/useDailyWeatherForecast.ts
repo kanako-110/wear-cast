@@ -1,8 +1,19 @@
 import axios from "axios";
 import { ref } from "vue";
 
+export type TodaysWeather = {
+  datetime?: string;
+  max_temp?: number;
+  min_temp?: number;
+  pop?: number;
+  weather?: {
+    icon: string;
+    description: string;
+  };
+};
+
 export const useDailyWeatherWeather = () => {
-  const todaysWeather = ref({});
+  const todaysWeather = ref<TodaysWeather>({});
   const loaded = ref(false);
 
   const getDailyWeatherForecast = async (city: string) => {

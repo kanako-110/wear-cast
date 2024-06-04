@@ -1,8 +1,13 @@
 import axios from "axios";
 import { ref } from "vue";
 
+export type CurrentWeather = {
+  city_name?: string;
+  temp?: number;
+};
+
 export const useCurrentWeather = () => {
-  const currentWeather = ref({});
+  const currentWeather = ref<CurrentWeather>({});
   const loaded = ref(false);
 
   const getCurrentWeather = async (city: string) => {
