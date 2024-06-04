@@ -18,7 +18,7 @@
       <template v-slot:actions>
         <v-spacer />
         <v-btn text="cancel" @click="closeDialog"></v-btn>
-        <v-btn class="ml-4" text="share" @click="submit"></v-btn>
+        <v-btn class="ml-4" text="share" @click="handleSubmit"></v-btn>
       </template>
 
       <!-- TODO; loading layout -->
@@ -35,14 +35,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db, storage } from "@/firebaseConfig";
-import {
-  ref as storageRef,
-  getDownloadURL,
-  uploadBytes,
-} from "firebase/storage";
+import { defineComponent, reactive } from "vue";
+import { useClothesForm } from "@/pages/Home/compositions/useClothesForm.ts";
+
+export type Input = {
+  name: string;
+  caption: string;
+  image?: FileList;
+};
 
 export default defineComponent({
   // outfitsに変える
@@ -54,46 +54,26 @@ export default defineComponent({
     },
   },
   setup(_, { emit }) {
-    const INITIAL_INPUT = { name: "", caption: "", image: undefined };
+    const INITIAL_INPUT: Input = {
+      name: "",
+      caption: "",
+      image: undefined,
+    };
 
     const input = reactive({ ...INITIAL_INPUT });
-    const loading = ref(false);
 
     const closeDialog = () => {
       emit("update:modelValue", false);
       for (const key in input) {
-        input[key] = INITIAL_INPUT[key];
+        (input as any)[key] = INITIAL_INPUT[key as keyof Input];
       }
     };
 
-    const submit = async () => {
-      const file = input.image[0];
-      const uniqueFileName = `${Date.now()}_${Math.random()
-        .toString(36)
-        .substring(2)}_${file.name}`;
-      const storageReference = storageRef(storage, `outfits/${uniqueFileName}`);
+    const { submit, loading } = useClothesForm();
 
-      try {
-        loading.value = true;
-        // Upload the file to Firebase Storage
-        const snapshot = await uploadBytes(storageReference, file);
+    const handleSubmit = () => submit(input, closeDialog);
 
-        // Get the file's download URL
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        await addDoc(collection(db, "outfits"), {
-          useName: input.name,
-          caption: input.caption,
-          imageUrl: downloadURL,
-          createdAt: serverTimestamp(),
-        });
-        closeDialog();
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-      loading.value = false;
-    };
-    return { closeDialog, input, submit, loading };
+    return { closeDialog, input, handleSubmit, loading };
   },
 });
 </script>
