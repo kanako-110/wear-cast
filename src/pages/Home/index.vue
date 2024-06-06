@@ -10,7 +10,12 @@
   <div class="mt-9">
     <!-- TODO; refetch when posted? -->
     <!-- TODO; add loading -->
-    <outfit-images :posts="outfitPosts" :loaded="loadedOutfitPosts" />
+    <outfit-images
+      :posts="outfitPosts"
+      :loaded="loadedOutfitPosts"
+      :hasNewPost="hasNewPost"
+      @load-more-click="fetchMorePosts"
+    />
   </div>
 </template>
 
@@ -33,9 +38,12 @@ export default defineComponent({
   setup() {
     const {
       outfitPosts,
+      hasNewPost,
       loaded: loadedOutfitPosts,
-      fetchOutfitsPost,
+      fetchInitialOutfitPosts,
+      loadMoreOutfitPosts,
     } = useOutfitPosts();
+
     const {
       currentWeather,
       loaded: loadedCurrentWeather,
@@ -52,11 +60,15 @@ export default defineComponent({
       () => loadedCurrentWeather.value && loadedDailyWeatherForecast.value
     );
 
+    const fetchMorePosts = () => {
+      loadMoreOutfitPosts();
+    };
+
     onMounted(() => {
       const CITY = "Vancouver";
       getCurrentWeather(CITY);
       getDailyWeatherForecast(CITY);
-      fetchOutfitsPost();
+      fetchInitialOutfitPosts();
     });
 
     return {
@@ -65,6 +77,8 @@ export default defineComponent({
       todaysWeather,
       loadedWeather,
       loadedOutfitPosts,
+      fetchMorePosts,
+      hasNewPost,
     };
   },
 });

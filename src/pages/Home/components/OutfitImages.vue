@@ -11,7 +11,8 @@
       >
         <!-- TODO; make sure not to download all at the same time -->
         <v-img
-          :lazy-src="post.imageUrl"
+          :lazy-src="placeholderImage"
+          :src="post.imageUrl"
           alt="outfit image"
           aspect-ratio="4/3"
           class="bg-grey-lighten-2 h-75"
@@ -20,12 +21,16 @@
         <!--  TODO; loading indicator from https://vuetifyjs.com/en/components/images/#grid-->
       </v-col>
     </v-row>
+    <div v-if="hasNewPost" class="my-4 d-flex justify-center">
+      <v-btn @click="$emit('load-more-click')"> More </v-btn>
+    </div>
   </template>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
+import placeholderImage from "@/assets/images/placeholder-image.png";
 
 export default defineComponent({
   name: "OutfitImages",
@@ -38,6 +43,14 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    hasNewPost: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ["load-more-click"],
+  setup() {
+    return { placeholderImage };
   },
 });
 </script>
