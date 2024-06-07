@@ -1,30 +1,24 @@
 <template>
-  <!-- TODO: loading UI -->
-  <template v-if="!loaded"> loading... </template>
-  <template v-else>
-    <v-row>
-      <v-col
-        v-for="post in posts"
-        class="d-flex child-flex"
-        :key="post.id"
-        cols="3"
-      >
-        <!-- TODO; make sure not to download all at the same time -->
-        <v-img
-          :lazy-src="placeholderImage"
-          :src="post.imageUrl"
-          alt="outfit image"
-          aspect-ratio="4/3"
-          class="bg-grey-lighten-2 h-75"
-          cover
-        />
-        <!--  TODO; loading indicator from https://vuetifyjs.com/en/components/images/#grid-->
-      </v-col>
-    </v-row>
-    <div v-if="hasNewPost" class="my-4 d-flex justify-center">
-      <v-btn @click="$emit('load-more-click')"> More </v-btn>
-    </div>
-  </template>
+  <v-row>
+    <v-col
+      v-for="post in posts"
+      class="d-flex child-flex"
+      :key="post.id"
+      cols="3"
+    >
+      <v-img
+        :lazy-src="placeholderImage"
+        :src="post.imageUrl"
+        alt="outfit image"
+        aspect-ratio="4/3"
+        class="bg-grey-lighten-2 h-75"
+        cover
+      />
+    </v-col>
+  </v-row>
+  <div v-if="hasNewPost && loaded" class="my-4 d-flex justify-center">
+    <v-btn @click="$emit('load-more-click')"> Load more </v-btn>
+  </div>
 </template>
 
 <script lang="ts">

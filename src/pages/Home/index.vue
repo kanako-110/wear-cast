@@ -9,7 +9,6 @@
   </div>
   <div class="mt-9">
     <!-- TODO; refetch when posted? -->
-    <!-- TODO; add loading -->
     <outfit-images
       :posts="outfitPosts"
       :loaded="loadedOutfitPosts"
@@ -76,9 +75,9 @@ export default defineComponent({
       currentWeather,
       todaysWeather,
       loadedWeather,
-      loadedOutfitPosts,
       fetchMorePosts,
       hasNewPost,
+      loadedOutfitPosts,
     };
   },
 });

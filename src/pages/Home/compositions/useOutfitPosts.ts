@@ -6,6 +6,8 @@ import {
   orderBy,
   limit,
   startAfter,
+  QueryDocumentSnapshot,
+  DocumentData,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
@@ -20,13 +22,15 @@ export type Post = {
   id: string;
 } & OutfitData;
 
-export const useOutfitPosts = () => {
-  const outfitPosts = ref<Post[]>([]);
-  const loaded = ref(false);
-  const lastVisible = ref(undefined);
-  const hasNewPost = ref(true);
+const BATCH_SIZE = 12;
 
-  const BATCH_SIZE = 12;
+export const useOutfitPosts = () => {
+  const loaded = ref(false);
+  const outfitPosts = ref<Post[]>([]);
+  const lastVisible = ref<
+    QueryDocumentSnapshot<DocumentData, DocumentData> | undefined
+  >(undefined);
+  const hasNewPost = ref(true);
 
   // fetch today only
   const fetchInitialOutfitPosts = async () => {
@@ -49,7 +53,7 @@ export const useOutfitPosts = () => {
       lastVisible.value = lastDoc;
 
       // if there is no new post, do not show update button
-      if (querySnapshot.empty) {
+      if (querySnapshot.size < BATCH_SIZE) {
         hasNewPost.value = false;
       }
     } catch (e) {
@@ -59,8 +63,9 @@ export const useOutfitPosts = () => {
   };
 
   const loadMoreOutfitPosts = async () => {
-    loaded.value = false;
     try {
+      loaded.value = false;
+
       if (!lastVisible?.value) return;
 
       const q = query(
@@ -70,19 +75,13 @@ export const useOutfitPosts = () => {
         limit(BATCH_SIZE)
       );
 
-      // まとめられるかも
       const querySnapshot = await getDocs(q);
 
-      // showing all again? fix later
-      querySnapshot.docs.forEach((doc) => {
-        outfitPosts.value = [
-          ...outfitPosts.value,
-          {
-            id: doc.id,
-            ...(doc.data() as OutfitData),
-          },
-        ];
-      });
+      const newPosts = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as OutfitData),
+      }));
+      outfitPosts.value = outfitPosts.value.concat(newPosts);
 
       // update the last post
       const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
@@ -99,9 +98,9 @@ export const useOutfitPosts = () => {
 
   return {
     outfitPosts,
-    loaded,
     fetchInitialOutfitPosts,
     loadMoreOutfitPosts,
     hasNewPost,
+    loaded,
   };
 };
