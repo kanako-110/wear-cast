@@ -8,6 +8,7 @@ import {
   startAfter,
   QueryDocumentSnapshot,
   DocumentData,
+  where,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
@@ -22,9 +23,20 @@ export type Post = {
   id: string;
 } & OutfitData;
 
-const BATCH_SIZE = 12;
+const getTodayRange = () => {
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+  console.log(startOfDay, endOfDay);
+
+  return { startOfDay, endOfDay };
+};
 
 export const useOutfitPosts = () => {
+  const BATCH_SIZE = 12;
+
   const loaded = ref(false);
   const outfitPosts = ref<Post[]>([]);
   const lastVisible = ref<
@@ -32,11 +44,14 @@ export const useOutfitPosts = () => {
   >(undefined);
   const hasNewPost = ref(true);
 
-  // fetch today only
+  const { startOfDay, endOfDay } = getTodayRange();
+
   const fetchInitialOutfitPosts = async () => {
     try {
       const q = query(
         collection(db, "outfits"),
+        where("createdAt", ">=", startOfDay),
+        where("createdAt", "<=", endOfDay),
         orderBy("createdAt", "desc"),
         limit(BATCH_SIZE)
       );
@@ -70,6 +85,8 @@ export const useOutfitPosts = () => {
 
       const q = query(
         collection(db, "outfits"),
+        where("createdAt", ">=", startOfDay),
+        where("createdAt", "<=", endOfDay),
         orderBy("createdAt", "desc"),
         startAfter(lastVisible.value),
         limit(BATCH_SIZE)
@@ -87,6 +104,7 @@ export const useOutfitPosts = () => {
       const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
       lastVisible.value = lastDoc;
 
+      // if there is no new post, do not show update button
       if (querySnapshot.size <= BATCH_SIZE) {
         hasNewPost.value = false;
       }
