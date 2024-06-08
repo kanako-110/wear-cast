@@ -1,11 +1,6 @@
 <template>
   <v-row>
-    <v-col
-      v-for="post in posts"
-      class="d-flex child-flex"
-      :key="post.id"
-      cols="3"
-    >
+    <v-col v-for="post in posts" :key="post.id" cols="3">
       <v-img
         :lazy-src="placeholderImage"
         :src="post.imageUrl"
@@ -14,6 +9,10 @@
         class="bg-grey-lighten-2 h-75"
         cover
       />
+      <div class="text-right mt-2">
+        <v-btn icon="mdi-heart-outline" @click="$emit('like-button-click')" />
+        <p class="mt-1">50 likes</p>
+      </div>
     </v-col>
   </v-row>
   <div v-if="hasNewPost && loaded" class="my-4 d-flex justify-center">
@@ -42,7 +41,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["load-more-click"],
+  emits: ["load-more-click", "like-button-click"],
   setup() {
     return { placeholderImage };
   },

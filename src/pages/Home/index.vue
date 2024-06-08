@@ -14,6 +14,7 @@
       :loaded="loadedOutfitPosts"
       :hasNewPost="hasNewPost"
       @load-more-click="fetchMorePosts"
+      @like-button-click="postLike"
     />
   </div>
 </template>
@@ -63,6 +64,10 @@ export default defineComponent({
       loadMoreOutfitPosts();
     };
 
+    const postLike = () => {
+      console.log("like clicked");
+    };
+
     onMounted(() => {
       const CITY = "Vancouver";
       getCurrentWeather(CITY);
@@ -78,6 +83,7 @@ export default defineComponent({
       fetchMorePosts,
       hasNewPost,
       loadedOutfitPosts,
+      postLike,
     };
   },
 });
