@@ -10,7 +10,10 @@
         cover
       />
       <div class="text-right mt-2">
-        <v-btn icon="mdi-heart-outline" @click="$emit('like-button-click')" />
+        <v-btn
+          icon="mdi-heart-outline"
+          @click="$emit('like-button-click', post.id)"
+        />
         <p class="mt-1">50 likes</p>
       </div>
     </v-col>

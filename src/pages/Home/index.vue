@@ -8,6 +8,7 @@
     />
   </div>
   <div class="mt-9">
+    <!-- empty state -->
     <!-- TODO; refetch when posted? -->
     <outfit-images
       :posts="outfitPosts"
@@ -27,6 +28,7 @@ import HeaderToolbar from "@/pages/Home/components/HeaderToolbar.vue";
 import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
+import { postLike } from "@/pages/Home/ modules/postLike.ts";
 
 export default defineComponent({
   name: "HomeIndex",
@@ -62,10 +64,6 @@ export default defineComponent({
 
     const fetchMorePosts = () => {
       loadMoreOutfitPosts();
-    };
-
-    const postLike = () => {
-      console.log("like clicked");
     };
 
     onMounted(() => {

@@ -33,6 +33,7 @@ export const useOutfitForm = () => {
         caption: input.caption,
         imageUrl: downloadURL,
         createdAt: serverTimestamp(),
+        likes: 0,
       });
       onSuccess();
     } catch (e) {
