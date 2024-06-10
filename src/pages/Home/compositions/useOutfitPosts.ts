@@ -9,6 +9,8 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
   where,
+  doc,
+  runTransaction,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
@@ -17,11 +19,16 @@ type OutfitData = {
   createdAt: Date;
   userName: string;
   caption: string | undefined;
+  likes: number;
 };
 
 export type Post = {
   id: string;
 } & OutfitData;
+
+export type LocalLike = {
+  [key: string]: number | undefined;
+};
 
 const getTodayRange = () => {
   const startOfDay = new Date();
@@ -29,7 +36,6 @@ const getTodayRange = () => {
 
   const endOfDay = new Date();
   endOfDay.setHours(23, 59, 59, 999);
-  console.log(startOfDay, endOfDay);
 
   return { startOfDay, endOfDay };
 };
@@ -39,6 +45,7 @@ export const useOutfitPosts = () => {
 
   const loaded = ref(false);
   const outfitPosts = ref<Post[]>([]);
+  const localLikes = ref<LocalLike[]>([]);
   const lastVisible = ref<
     QueryDocumentSnapshot<DocumentData, DocumentData> | undefined
   >(undefined);
@@ -48,6 +55,7 @@ export const useOutfitPosts = () => {
 
   const fetchInitialOutfitPosts = async () => {
     try {
+      // TODO; maybe define this on parent component?
       const q = query(
         collection(db, "outfits"),
         where("createdAt", ">=", startOfDay),
@@ -62,6 +70,13 @@ export const useOutfitPosts = () => {
         id: doc.id,
         ...(doc.data() as OutfitData),
       }));
+
+      localLikes.value = querySnapshot.docs.map((doc) => {
+        const docId = doc.id;
+        return {
+          [docId]: doc.data().likes as number,
+        };
+      });
 
       // update the last post
       const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
@@ -100,6 +115,13 @@ export const useOutfitPosts = () => {
       }));
       outfitPosts.value = outfitPosts.value.concat(newPosts);
 
+      localLikes.value = querySnapshot.docs.map((doc) => {
+        const docId = doc.id;
+        return {
+          [docId]: doc.data().likes as number,
+        };
+      });
+
       // update the last post
       const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
       lastVisible.value = lastDoc;
@@ -114,11 +136,41 @@ export const useOutfitPosts = () => {
     loaded.value = true;
   };
 
+  const postLike = async (id: string) => {
+    const outFitPostRef = doc(db, "outfits", id);
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const postDoc = await transaction.get(outFitPostRef);
+        if (!postDoc.exists()) {
+          throw new Error("Document does not exist!");
+        }
+
+        const newLike = (postDoc.data().likes || 0) + 1;
+        transaction.update(outFitPostRef, { likes: newLike });
+
+        // Update UI
+        const localTarget = localLikes.value.find((obj) =>
+          obj.hasOwnProperty(id)
+        );
+        if (localTarget && typeof localTarget[id] === "number") {
+          localTarget[id] += 1;
+        } else {
+          console.error(`Error: Key ${id} not found or value is not a number`);
+        }
+      });
+    } catch (e) {
+      console.error("Error adding like: ", e);
+    }
+  };
+
   return {
     outfitPosts,
     fetchInitialOutfitPosts,
     loadMoreOutfitPosts,
+    postLike,
     hasNewPost,
     loaded,
+    localLikes,
   };
 };

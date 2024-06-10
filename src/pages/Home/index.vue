@@ -12,6 +12,7 @@
     <!-- TODO; refetch when posted? -->
     <outfit-images
       :posts="outfitPosts"
+      :local-likes="localLikes"
       :loaded="loadedOutfitPosts"
       :hasNewPost="hasNewPost"
       @load-more-click="fetchMorePosts"
@@ -21,14 +22,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from "vue";
+import { defineComponent, onMounted, computed, ref } from "vue";
 import WeatherCard from "@/pages/Home/components/WeatherCard.vue";
 import OutfitImages from "@/pages/Home/components/OutfitImages.vue";
 import HeaderToolbar from "@/pages/Home/components/HeaderToolbar.vue";
 import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
-import { postLike } from "@/pages/Home/ modules/postLike.ts";
 
 export default defineComponent({
   name: "HomeIndex",
@@ -40,10 +40,12 @@ export default defineComponent({
   setup() {
     const {
       outfitPosts,
+      localLikes,
       hasNewPost,
       loaded: loadedOutfitPosts,
       fetchInitialOutfitPosts,
       loadMoreOutfitPosts,
+      postLike,
     } = useOutfitPosts();
 
     const {
@@ -82,6 +84,7 @@ export default defineComponent({
       hasNewPost,
       loadedOutfitPosts,
       postLike,
+      localLikes,
     };
   },
 });
