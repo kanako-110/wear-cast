@@ -2,14 +2,16 @@
   <header-toolbar />
   <div class="mt-8 d-flex justify-center">
     <weather-card
+      :most-liked-outfit="mostLikedOutfit"
       :currentWeather="currentWeather"
       :todaysWeather="todaysWeather"
-      :loaded="loadedWeather"
+      :loaded="loadedWeatherCard"
     />
   </div>
   <div class="mt-9">
     <!-- empty state -->
     <!-- TODO; refetch when posted? -->
+    <!-- TOD; delete? -->
     <outfit-images
       :posts="outfitPosts"
       :local-likes="localLikes"
@@ -29,6 +31,7 @@ import HeaderToolbar from "@/pages/Home/components/HeaderToolbar.vue";
 import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
+import { usePopularOutfit } from "@/pages/Home/compositions/usePopularOutfit.ts";
 
 export default defineComponent({
   name: "HomeIndex",
@@ -60,8 +63,17 @@ export default defineComponent({
       getDailyWeatherForecast,
     } = useDailyWeatherWeather();
 
-    const loadedWeather = computed(
-      () => loadedCurrentWeather.value && loadedDailyWeatherForecast.value
+    const {
+      mostLikedOutfit,
+      fetchPopularOutfit,
+      loaded: loadedPopularOutfit,
+    } = usePopularOutfit();
+
+    const loadedWeatherCard = computed(
+      () =>
+        loadedCurrentWeather.value &&
+        loadedDailyWeatherForecast.value &&
+        loadedPopularOutfit.value
     );
 
     const fetchMorePosts = () => {
@@ -73,18 +85,20 @@ export default defineComponent({
       getCurrentWeather(CITY);
       getDailyWeatherForecast(CITY);
       fetchInitialOutfitPosts();
+      fetchPopularOutfit();
     });
 
     return {
       outfitPosts,
       currentWeather,
       todaysWeather,
-      loadedWeather,
+      loadedWeatherCard,
       fetchMorePosts,
       hasNewPost,
       loadedOutfitPosts,
       postLike,
       localLikes,
+      mostLikedOutfit,
     };
   },
 });

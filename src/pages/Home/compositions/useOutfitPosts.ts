@@ -13,8 +13,9 @@ import {
   runTransaction,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
+import { getTodayRange } from "@/utils/getTodayRange.ts";
 
-type OutfitData = {
+export type OutfitData = {
   imageUrl: string;
   createdAt: Date;
   userName: string;
@@ -28,16 +29,6 @@ export type Post = {
 
 export type LocalLike = {
   [key: string]: number | undefined;
-};
-
-const getTodayRange = () => {
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date();
-  endOfDay.setHours(23, 59, 59, 999);
-
-  return { startOfDay, endOfDay };
 };
 
 export const useOutfitPosts = () => {

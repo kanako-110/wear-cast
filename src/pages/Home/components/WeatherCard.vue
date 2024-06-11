@@ -11,7 +11,7 @@
       <v-card-text>
         <v-row align="center">
           <v-col class="text-center" cols="4">
-            <img
+            <v-img
               width="80%"
               :src="weatherIcon.url"
               :alt="weatherIcon.description"
@@ -42,9 +42,10 @@
           </v-col>
           <v-col class="text-center" cols="4">
             <v-img
-              alt="fashion image"
+              alt="most liked outfit of today"
               aspect-ratio="16/9"
-              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2124&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              :src="mostLikedOutfit.imageUrl"
+              :lazy-src="placeholderImage"
             />
           </v-col>
         </v-row>
@@ -56,6 +57,8 @@
 import { defineComponent, computed, PropType } from "vue";
 import type { TodaysWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
 import type { CurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
+import { OutfitData } from "@/pages/Home/compositions/useOutfitPosts.ts";
+import placeholderImage from "@/assets/images/placeholder-image.png";
 
 export default defineComponent({
   name: "WeatherCard",
@@ -67,6 +70,10 @@ export default defineComponent({
     currentWeather: {
       type: Object as PropType<CurrentWeather>,
       required: true,
+    },
+    mostLikedOutfit: {
+      type: Object as PropType<OutfitData>,
+      default: {},
     },
     loaded: {
       type: Boolean,
@@ -83,7 +90,7 @@ export default defineComponent({
       };
     });
 
-    return { weatherIcon };
+    return { weatherIcon, placeholderImage };
   },
 });
 </script>
