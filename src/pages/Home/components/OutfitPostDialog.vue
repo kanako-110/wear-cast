@@ -52,6 +52,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["outfit-submit", "update:modelValue"],
   setup(_, { emit }) {
     const INITIAL_INPUT: Input = {
       name: "",
@@ -70,7 +71,10 @@ export default defineComponent({
 
     const { submit, loading } = useOutfitForm();
 
-    const handleSubmit = () => submit(input, closeDialog);
+    const handleSubmit = async () => {
+      await submit(input, closeDialog);
+      emit("outfit-submit");
+    };
 
     return { closeDialog, input, handleSubmit, loading };
   },

@@ -5,7 +5,10 @@
       <v-icon>mdi-pen-plus</v-icon>
     </v-btn>
 
-    <outfit-post-dialog v-model="dialog" />
+    <outfit-post-dialog
+      v-model="dialog"
+      @outfit-submit="$emit('outfit-submit')"
+    />
   </v-toolbar>
 </template>
 
@@ -18,6 +21,7 @@ export default defineComponent({
   components: {
     OutfitPostDialog,
   },
+  emits: ["outfit-submit"],
   setup() {
     const dialog = ref(false);
     return { dialog };

@@ -46,6 +46,7 @@ export const useOutfitPosts = () => {
 
   const fetchInitialOutfitPosts = async () => {
     try {
+      loaded.value = false;
       // TODO; maybe define this on parent component?
       const q = query(
         collection(db, "outfits"),

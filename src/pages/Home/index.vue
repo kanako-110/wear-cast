@@ -1,5 +1,5 @@
 <template>
-  <header-toolbar />
+  <header-toolbar @outfit-submit="updateOutfitImages" />
   <div class="mt-8 d-flex justify-center">
     <weather-card
       :most-liked-outfit="mostLikedOutfit"
@@ -80,6 +80,10 @@ export default defineComponent({
       loadMoreOutfitPosts();
     };
 
+=    const updateOutfitImages = () => {
+      fetchInitialOutfitPosts();
+    };
+
     onMounted(() => {
       const CITY = "Vancouver";
       getCurrentWeather(CITY);
@@ -99,6 +103,7 @@ export default defineComponent({
       postLike,
       localLikes,
       mostLikedOutfit,
+      updateOutfitImages,
     };
   },
 });
