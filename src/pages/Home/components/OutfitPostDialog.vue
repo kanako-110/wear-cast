@@ -1,37 +1,35 @@
 <template>
-  <v-dialog v-model="modelValue" max-width="600" persistent>
-    <v-card title="Share Your Outfit">
-      <!-- validation -->
-      <v-card-text>
-        <!-- required, string -->
-        <v-text-field v-model="input.name" label="Name*" required />
-        <v-textarea v-model="input.caption" label="Caption" />
-        <!-- required -->
+  <v-card title="Share Your Outfit">
+    <!-- validation -->
+    <v-card-text>
+      <!-- required, string -->
+      <v-text-field v-model="input.name" label="Name*" required />
+      <v-textarea v-model="input.caption" label="Caption" />
+      <!-- required -->
 
-        <v-file-input
-          v-model="input.image"
-          label="Photo Upload*"
-          prepend-icon="mdi-camera"
-        />
-      </v-card-text>
+      <v-file-input
+        v-model="input.image"
+        label="Photo Upload*"
+        prepend-icon="mdi-camera"
+      />
+    </v-card-text>
 
-      <template v-slot:actions>
-        <v-spacer />
-        <v-btn text="cancel" @click="closeDialog"></v-btn>
-        <v-btn class="ml-4" text="share" @click="handleSubmit"></v-btn>
-      </template>
+    <template v-slot:actions>
+      <v-spacer />
+      <v-btn text="cancel" @click="closeDialog"></v-btn>
+      <v-btn class="ml-4" text="share" @click="handleSubmit"></v-btn>
+    </template>
 
-      <!-- TODO; loading layout -->
-      <template v-if="loading" v-slot:append>
-        <v-progress-circular
-          color="primary"
-          indeterminate="disable-shrink"
-          size="16"
-          width="2"
-        ></v-progress-circular>
-      </template>
-    </v-card>
-  </v-dialog>
+    <!-- TODO; loading layout -->
+    <template v-if="loading" v-slot:append>
+      <v-progress-circular
+        color="primary"
+        indeterminate="disable-shrink"
+        size="16"
+        width="2"
+      ></v-progress-circular>
+    </template>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -46,13 +44,8 @@ export type Input = {
 
 export default defineComponent({
   name: "OutfitPostDialog",
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  emits: ["outfit-submit", "update:modelValue"],
+
+  emits: ["outfit-submit", "cancel"],
   setup(_, { emit }) {
     const INITIAL_INPUT: Input = {
       name: "",
@@ -63,7 +56,7 @@ export default defineComponent({
     const input = reactive({ ...INITIAL_INPUT });
 
     const closeDialog = () => {
-      emit("update:modelValue", false);
+      emit("cancel");
       for (const key in input) {
         (input as any)[key] = INITIAL_INPUT[key as keyof Input];
       }

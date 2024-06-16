@@ -80,7 +80,7 @@ export default defineComponent({
       loadMoreOutfitPosts();
     };
 
-=    const updateOutfitImages = () => {
+    const updateOutfitImages = () => {
       fetchInitialOutfitPosts();
     };
 
