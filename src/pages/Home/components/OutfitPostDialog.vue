@@ -44,7 +44,6 @@ export type Input = {
 
 export default defineComponent({
   name: "OutfitPostDialog",
-
   emits: ["outfit-submit", "cancel"],
   setup(_, { emit }) {
     const INITIAL_INPUT: Input = {

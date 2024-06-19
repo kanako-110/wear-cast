@@ -7,7 +7,11 @@
     </v-btn>
 
     <v-dialog v-model="isDialogOpen" max-width="600" persistent>
-      <authentication-dialog v-if="!hasLoggedIn" />
+      <authentication-dialog
+        v-if="!user"
+        type="signIn"
+        text="To post, let's log in first!"
+      />
       <outfit-post-dialog
         v-else
         @cancel="cancel"
@@ -18,9 +22,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import OutfitPostDialog from "@/pages/Home/components/OutfitPostDialog.vue";
 import AuthenticationDialog from "@/components/layout/AuthenticationDialog.vue";
+import { useAuth } from "@/compositions/useAuth";
 
 export default defineComponent({
   name: "HeaderToolbar",
@@ -31,16 +36,12 @@ export default defineComponent({
   emits: ["outfit-submit"],
   setup() {
     const isDialogOpen = ref(false);
-
-    const hasLoggedIn = computed(() => {
-      // fetch loginStatus from firebase
-      return false;
-    });
+    const { user } = useAuth();
 
     const cancel = () => {
       isDialogOpen.value = false;
     };
-    return { isDialogOpen, cancel, hasLoggedIn };
+    return { isDialogOpen, cancel, user };
   },
 });
 </script>
