@@ -21,10 +21,13 @@
       @like-button-click="postLike"
     />
   </div>
+  <div class="mt-3 mr-6 text-right">
+    <sign-out-button />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed, ref } from "vue";
+import { defineComponent, onMounted, computed } from "vue";
 import WeatherCard from "@/pages/Home/components/WeatherCard.vue";
 import OutfitImages from "@/pages/Home/components/OutfitImages.vue";
 import HeaderToolbar from "@/pages/Home/components/HeaderToolbar.vue";
@@ -32,6 +35,7 @@ import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
 import { usePopularOutfit } from "@/pages/Home/compositions/usePopularOutfit.ts";
+import SignOutButton from "@/components/layout/SignOutButton.vue";
 
 export default defineComponent({
   name: "HomeIndex",
@@ -39,6 +43,7 @@ export default defineComponent({
     WeatherCard,
     OutfitImages,
     HeaderToolbar,
+    SignOutButton,
   },
   setup() {
     const {
