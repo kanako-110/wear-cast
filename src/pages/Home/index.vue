@@ -21,7 +21,7 @@
       @like-button-click="postLike"
     />
   </div>
-  <div class="mt-3 mr-6 text-right">
+  <div v-if="user" class="mt-3 mr-6 text-right">
     <sign-out-button />
   </div>
 </template>
@@ -36,6 +36,7 @@ import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.t
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
 import { usePopularOutfit } from "@/pages/Home/compositions/usePopularOutfit.ts";
 import SignOutButton from "@/components/layout/SignOutButton.vue";
+import { useAuth } from "@/compositions/useAuth";
 
 export default defineComponent({
   name: "HomeIndex",
@@ -74,6 +75,8 @@ export default defineComponent({
       loaded: loadedPopularOutfit,
     } = usePopularOutfit();
 
+    const { user } = useAuth();
+
     const loadedWeatherCard = computed(
       () =>
         loadedCurrentWeather.value &&
@@ -109,6 +112,7 @@ export default defineComponent({
       localLikes,
       mostLikedOutfit,
       updateOutfitImages,
+      user,
     };
   },
 });

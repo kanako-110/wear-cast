@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   User,
   UserCredential,
+  signOut,
 } from "firebase/auth";
 import { inject, onMounted, provide, ref, Ref } from "vue";
 
@@ -12,6 +13,7 @@ type Return = {
   loadingAuthState: Ref<boolean>;
   signInWithGoogleLoading: Ref<boolean>;
   signInWithGoogle: Promise<void>;
+  signOutUser: () => Promise<void>;
 };
 
 const authSymbol = Symbol();
@@ -31,6 +33,15 @@ export const createAuth = () => {
     }
   };
 
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+      user.value = null;
+    } catch (e) {
+      console.error("Error signing out:", e);
+    }
+  };
+
   onMounted(() => {
     onAuthStateChanged(auth, (currentUser) => {
       user.value = currentUser;
@@ -43,6 +54,7 @@ export const createAuth = () => {
     loadingAuthState,
     signInWithGoogleLoading,
     signInWithGoogle,
+    signOutUser,
   });
 };
 
