@@ -22,7 +22,7 @@
     />
   </div>
   <div v-if="user" class="mt-3 mr-6 text-right">
-    <sign-out-button />
+    <sign-out />
   </div>
 </template>
 
@@ -35,7 +35,7 @@ import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
 import { usePopularOutfit } from "@/pages/Home/compositions/usePopularOutfit.ts";
-import SignOutButton from "@/components/layout/SignOutButton.vue";
+import SignOut from "@/components/layout/SignOut.vue";
 import { useAuth } from "@/compositions/useAuth";
 
 export default defineComponent({
@@ -44,7 +44,7 @@ export default defineComponent({
     WeatherCard,
     OutfitImages,
     HeaderToolbar,
-    SignOutButton,
+    SignOut,
   },
   setup() {
     const {

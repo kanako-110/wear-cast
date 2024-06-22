@@ -14,14 +14,16 @@ type Return = {
   signInWithGoogleLoading: Ref<boolean>;
   signInWithGoogle: Promise<void>;
   signOutUser: () => Promise<void>;
+  signingOut: Ref<boolean>;
 };
 
 const authSymbol = Symbol();
 
 export const createAuth = () => {
   const user = ref<User | null>(null);
-  const loadingAuthState = ref(true);
   const signInWithGoogleLoading = ref(false);
+  const loadingAuthState = ref(true);
+  const signingOut = ref(false);
 
   const signInWithGoogle = async () => {
     signInWithGoogleLoading.value = true;
@@ -34,12 +36,14 @@ export const createAuth = () => {
   };
 
   const signOutUser = async () => {
+    signingOut.value = true;
     try {
       await signOut(auth);
       user.value = null;
     } catch (e) {
       console.error("Error signing out:", e);
     }
+    signingOut.value = false;
   };
 
   onMounted(() => {
@@ -55,6 +59,7 @@ export const createAuth = () => {
     signInWithGoogleLoading,
     signInWithGoogle,
     signOutUser,
+    signingOut,
   });
 };
 
