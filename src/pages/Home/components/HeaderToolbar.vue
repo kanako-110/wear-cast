@@ -1,7 +1,11 @@
 <!-- move to shared? -->
 <template>
   <!-- forecast? -->
-  <v-toolbar title="WearCast">
+  <v-toolbar color="white">
+    <v-spacer />
+    <v-toolbar-title class="text-h5 font-weight-bold title"
+      >WearCast</v-toolbar-title
+    >
     <v-btn icon @click="isDialogOpen = true">
       <v-icon>mdi-pen-plus</v-icon>
     </v-btn>
@@ -45,3 +49,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap");
+
+.title {
+  font-family: "Alfa Slab One";
+}
+</style>

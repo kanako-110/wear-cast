@@ -14,10 +14,16 @@
       />
     </v-card-text>
 
+    <!-- disabled when downloading -->
     <template v-slot:actions>
       <v-spacer />
-      <v-btn text="cancel" @click="closeDialog"></v-btn>
-      <v-btn class="ml-4" text="share" @click="handleSubmit"></v-btn>
+      <v-btn text="cancel" :disabled="loading" @click="closeDialog"></v-btn>
+      <v-btn
+        class="ml-4"
+        :disabled="loading"
+        text="share"
+        @click="handleSubmit"
+      ></v-btn>
     </template>
 
     <!-- TODO; loading layout -->
