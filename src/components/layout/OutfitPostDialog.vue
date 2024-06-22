@@ -14,7 +14,6 @@
       />
     </v-card-text>
 
-    <!-- disabled when downloading -->
     <template v-slot:actions>
       <v-spacer />
       <v-btn text="cancel" :disabled="loading" @click="closeDialog"></v-btn>
@@ -26,7 +25,6 @@
       ></v-btn>
     </template>
 
-    <!-- TODO; loading layout -->
     <template v-if="loading" v-slot:append>
       <v-progress-circular
         color="primary"

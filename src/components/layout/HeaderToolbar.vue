@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import OutfitPostDialog from "@/pages/Home/components/OutfitPostDialog.vue";
+import OutfitPostDialog from "@/components/layout/OutfitPostDialog.vue";
 import AuthenticationDialog from "@/components/layout/AuthenticationDialog.vue";
 import { useAuth } from "@/compositions/useAuth";
 

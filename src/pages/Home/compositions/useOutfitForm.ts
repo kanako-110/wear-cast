@@ -6,7 +6,7 @@ import {
   getDownloadURL,
   uploadBytes,
 } from "firebase/storage";
-import type { Input } from "@/pages/Home/components/OutfitPostDialog.vue";
+import type { Input } from "@/components/layout/OutfitPostDialog.vue";
 
 export const useOutfitForm = () => {
   const loading = ref(false);

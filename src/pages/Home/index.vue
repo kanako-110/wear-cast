@@ -10,7 +10,6 @@
   </div>
   <div class="mt-9">
     <!-- empty state -->
-    <!-- TODO; refetch when posted? -->
     <!-- TOD; delete? -->
     <outfit-images
       :posts="outfitPosts"
@@ -30,7 +29,7 @@
 import { defineComponent, onMounted, computed } from "vue";
 import WeatherCard from "@/pages/Home/components/WeatherCard.vue";
 import OutfitImages from "@/pages/Home/components/OutfitImages.vue";
-import HeaderToolbar from "@/pages/Home/components/HeaderToolbar.vue";
+import HeaderToolbar from "@/components/layout/HeaderToolbar.vue";
 import { useOutfitPosts } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { useCurrentWeather } from "@/pages/Home/compositions/useCurrentWeather.ts";
 import { useDailyWeatherWeather } from "@/pages/Home/compositions/useDailyWeatherForecast.ts";
