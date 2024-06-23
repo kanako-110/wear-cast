@@ -1,6 +1,9 @@
 <template>
   <v-row>
     <v-col v-for="post in posts" :key="post.id" cols="3">
+      <div class="text-right">
+        <action-menu />
+      </div>
       <v-img
         :lazy-src="placeholderImage"
         :src="post.imageUrl"
@@ -30,9 +33,11 @@ import type {
   LocalLike,
 } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import placeholderImage from "@/assets/images/placeholder-image.png";
+import ActionMenu from "@/pages/Home/components/ActionMenu.vue";
 
 export default defineComponent({
   name: "OutfitImages",
+  components: { ActionMenu },
   props: {
     posts: {
       type: Array as PropType<Post[]>,
@@ -58,6 +63,7 @@ export default defineComponent({
       if (!target) return 0;
       return target[id] || 0;
     };
+
     return { placeholderImage, getLikeCount };
   },
 });
