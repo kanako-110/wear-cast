@@ -9,7 +9,11 @@
       />
     </template>
     <v-list density="compact">
-      <v-list-item v-for="(item, index) in list" :key="index">
+      <v-list-item
+        v-for="(item, index) in list"
+        :key="index"
+        @click="item.action"
+      >
         <template v-slot:prepend>
           <v-icon :icon="item.icon" size="small" />
         </template>
@@ -20,15 +24,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
+import { deleteOutfitPost } from "@/pages/Home/modules/deleteOutfitPost.ts";
 
 export default defineComponent({
   name: "ActionMenu",
-  props: {},
-  setup() {
+  props: {
+    post: {
+      type: Object as PropType<Post>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const edit = () => {
+      console.log("edit");
+    };
+
+    const deletePost = async () => {
+      await deleteOutfitPost(props.post.id, props.post.imageUrl);
+      // refetch
+    };
+
     const list = [
-      { title: "Edit", icon: "mdi-pencil-outline" },
-      { title: "Delete", icon: "mdi-delete-outline" },
+      { title: "Edit", icon: "mdi-pencil-outline", action: edit },
+      { title: "Delete", icon: "mdi-delete-outline", action: deletePost },
     ];
     return { list };
   },

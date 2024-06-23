@@ -2,7 +2,7 @@
   <v-row>
     <v-col v-for="post in posts" :key="post.id" cols="3">
       <div class="text-right">
-        <action-menu />
+        <action-menu :post="post" />
       </div>
       <v-img
         :lazy-src="placeholderImage"
