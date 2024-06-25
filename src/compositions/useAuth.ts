@@ -1,10 +1,10 @@
 import { auth, provider } from "@/firebaseConfig";
 import {
-  signInWithRedirect,
   onAuthStateChanged,
   User,
   UserCredential,
   signOut,
+  signInWithPopup,
 } from "firebase/auth";
 import { inject, onMounted, provide, ref, Ref } from "vue";
 
@@ -28,7 +28,7 @@ export const createAuth = () => {
   const signInWithGoogle = async () => {
     signInWithGoogleLoading.value = true;
     try {
-      const result: UserCredential = await signInWithRedirect(auth, provider);
+      const result: UserCredential = await signInWithPopup(auth, provider);
       user.value = result.user;
     } catch (e) {
       console.error("Error signing in with Google:", e);
