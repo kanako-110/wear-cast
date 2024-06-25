@@ -11,7 +11,7 @@ import type { Input } from "@/components/layout/OutfitPostDialog.vue";
 export const useOutfitForm = () => {
   const loading = ref(false);
 
-  const submit = async (input: Input, onSuccess: () => void) => {
+  const submit = async (input: Input, onSuccess: () => void, uid: string) => {
     if (!input.image?.length) return;
 
     const file = input.image[0];
@@ -34,6 +34,7 @@ export const useOutfitForm = () => {
         imageUrl: downloadURL,
         createdAt: serverTimestamp(),
         likes: 0,
+        uid: uid,
       });
       onSuccess();
     } catch (e) {

@@ -39,6 +39,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { useOutfitForm } from "@/pages/Home/compositions/useOutfitForm";
+import { useAuth } from "@/compositions/useAuth";
 
 export type Input = {
   name: string;
@@ -58,6 +59,8 @@ export default defineComponent({
 
     const input = reactive({ ...INITIAL_INPUT });
 
+    const { user } = useAuth();
+
     const closeDialog = () => {
       emit("cancel");
       for (const key in input) {
@@ -68,7 +71,7 @@ export default defineComponent({
     const { submit, loading } = useOutfitForm();
 
     const handleSubmit = async () => {
-      await submit(input, closeDialog);
+      await submit(input, closeDialog, user.value.uid);
       emit("outfit-submit");
     };
 
