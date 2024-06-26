@@ -1,15 +1,17 @@
 <template>
   <v-row>
     <v-col v-for="post in posts" :key="post.id" cols="3">
-      <div class="text-right">
+      <div v-if="isOwner(post.uid)" class="text-right">
         <action-menu :post="post" />
       </div>
+      <!-- Memo: To ensure consistent height when there are no action button, a height of 36px is added" -->
       <v-img
         :lazy-src="placeholderImage"
         :src="post.imageUrl"
         alt="outfit image"
         aspect-ratio="4/3"
-        class="bg-grey-lighten-2 h-75"
+        class="outfit-image bg-grey-lighten-2 h-75"
+        :class="{ '-no-owner': !isOwner(post.uid) }"
         cover
       />
       <div class="text-right mt-2">
@@ -34,6 +36,7 @@ import type {
 } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import placeholderImage from "@/assets/images/placeholder-image.png";
 import ActionMenu from "@/pages/Home/components/ActionMenu.vue";
+import { useAuth } from "@/compositions/useAuth";
 
 export default defineComponent({
   name: "OutfitImages",
@@ -58,13 +61,25 @@ export default defineComponent({
   },
   emits: ["load-more-click", "like-button-click"],
   setup(props) {
+    const { user } = useAuth();
+
+    const isOwner = (postOwnerUid: string) => user.value.uid === postOwnerUid;
+
     const getLikeCount = (id: string) => {
       const target = props.localLikes.find((like) => like.hasOwnProperty(id));
       if (!target) return 0;
       return target[id] || 0;
     };
 
-    return { placeholderImage, getLikeCount };
+    return { placeholderImage, getLikeCount, isOwner };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.outfit-image {
+  &.-no-owner {
+    margin-top: 36px;
+  }
+}
+</style>
