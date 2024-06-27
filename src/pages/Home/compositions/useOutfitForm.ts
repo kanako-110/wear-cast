@@ -29,9 +29,10 @@ export const useOutfitForm = () => {
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       await addDoc(collection(db, "outfits"), {
-        useName: input.name,
+        userName: input.name,
         caption: input.caption,
         imageUrl: downloadURL,
+        fileName: file.name,
         createdAt: serverTimestamp(),
         likes: 0,
         uid: uid,

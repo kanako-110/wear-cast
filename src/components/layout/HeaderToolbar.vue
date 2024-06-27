@@ -7,7 +7,7 @@
       >WearCast</v-toolbar-title
     >
     <v-btn icon @click="isDialogOpen = true">
-      <v-icon>mdi-pen-plus</v-icon>
+      <v-icon aria-hidden="false" aria-label="Create post">mdi-pen-plus</v-icon>
     </v-btn>
 
     <v-dialog v-model="isDialogOpen" max-width="600" persistent>
@@ -16,7 +16,7 @@
         type="signIn"
         text="To post, let's log in first!"
       />
-      <outfit-post-dialog
+      <outfit-post-create-dialog
         v-else
         @cancel="cancel"
         @outfit-submit="$emit('outfit-submit')"
@@ -27,14 +27,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import OutfitPostDialog from "@/components/layout/OutfitPostDialog.vue";
+import OutfitPostCreateDialog from "@/components/layout/OutfitPostCreateDialog.vue";
 import AuthenticationDialog from "@/components/layout/AuthenticationDialog.vue";
 import { useAuth } from "@/compositions/useAuth";
 
 export default defineComponent({
   name: "HeaderToolbar",
   components: {
-    OutfitPostDialog,
+    OutfitPostCreateDialog,
     AuthenticationDialog,
   },
   emits: ["outfit-submit"],

@@ -19,9 +19,10 @@ export type OutfitData = {
   imageUrl: string;
   createdAt: Date;
   userName: string;
-  caption: string | undefined;
+  caption: string;
   likes: number;
   uid: string;
+  fileName: string;
 };
 
 export type Post = {
