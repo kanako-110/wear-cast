@@ -1,5 +1,5 @@
 <template>
-  <header-toolbar @outfit-submit="updateOutfitImages" />
+  <header-toolbar @outfit-submit="refetchOutfitImages" />
   <div class="mt-8 d-flex justify-center">
     <weather-card
       :most-liked-outfit="mostLikedOutfit"
@@ -10,7 +10,6 @@
   </div>
   <div class="mt-9">
     <!-- empty state -->
-    <!-- TOD; delete? -->
     <outfit-images
       :posts="outfitPosts"
       :local-likes="localLikes"
@@ -18,6 +17,7 @@
       :hasNewPost="hasNewPost"
       @load-more-click="fetchMorePosts"
       @like-button-click="postLike"
+      @outfit-submit="refetchOutfitImages"
     />
   </div>
   <div v-if="user" class="mt-3 mr-6 text-right">
@@ -87,7 +87,7 @@ export default defineComponent({
       loadMoreOutfitPosts();
     };
 
-    const updateOutfitImages = () => {
+    const refetchOutfitImages = () => {
       fetchInitialOutfitPosts();
     };
 
@@ -110,7 +110,7 @@ export default defineComponent({
       postLike,
       localLikes,
       mostLikedOutfit,
-      updateOutfitImages,
+      refetchOutfitImages,
       user,
     };
   },

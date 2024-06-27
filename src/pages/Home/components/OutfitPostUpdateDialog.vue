@@ -1,22 +1,22 @@
 <template>
   <outfit-post-dialog
     v-model="input"
-    :loading="false"
-    @cancel="cancel"
+    :loading="loading"
+    @cancel="close"
     @outfit-submit="handleSubmit"
   />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, reactive } from "vue";
-import { useAuth } from "@/compositions/useAuth";
 import type { Input } from "@/components/layout/OutfitPostDialog.vue";
 import OutfitPostDialog from "@/components/layout/OutfitPostDialog.vue";
 import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
+import { useOutfitPostUpdate } from "@/pages/Home/compositions/useOutfitPostUpdate.ts";
 
 export default defineComponent({
-  name: "OutfitPostEditDialog",
-  emits: ["outfit-submit", "cancel"],
+  name: "OutfitPostUpdateDialog",
+  emits: ["outfit-submit", "close"],
   components: {
     OutfitPostDialog,
   },
@@ -33,21 +33,22 @@ export default defineComponent({
       fileName: props.post.fileName,
     });
 
-    const { user } = useAuth();
+    const { updateOutfitPost, loading } = useOutfitPostUpdate();
 
-    const cancel = () => {
-      // for (const key in input) {
-      //   (input as any)[key] = INITIAL_INPUT[key as keyof Input];
-      // }
-      emit("cancel");
+    const close = () => {
+      emit("close");
     };
 
-    const handleSubmit = async () => {
-      console.log(user.value.uid);
+    const handleSuccess = () => {
+      close();
       emit("outfit-submit");
     };
 
-    return { cancel, input, handleSubmit };
+    const handleSubmit = async () => {
+      await updateOutfitPost(props.post.id, input, handleSuccess);
+    };
+
+    return { close, input, handleSubmit, loading };
   },
 });
 </script>

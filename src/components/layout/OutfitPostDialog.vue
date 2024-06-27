@@ -24,7 +24,7 @@
 
     <template v-slot:actions>
       <v-spacer />
-      <v-btn text="cancel" :disabled="loading" @click="closeDialog"></v-btn>
+      <v-btn text="cancel" :disabled="loading" @click="handleCancel"></v-btn>
       <v-btn
         class="ml-4"
         :disabled="loading"
@@ -70,7 +70,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const isEditMode = computed(() => props.modelValue.fileName);
 
-    const closeDialog = () => {
+    const handleCancel = () => {
       emit("cancel");
     };
 
@@ -78,7 +78,7 @@ export default defineComponent({
       emit("outfit-submit");
     };
 
-    return { closeDialog, handleSubmit, isEditMode };
+    return { handleCancel, handleSubmit, isEditMode };
   },
 });
 </script>

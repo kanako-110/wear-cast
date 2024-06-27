@@ -2,7 +2,7 @@
   <v-row>
     <v-col v-for="post in posts" :key="post.id" cols="3">
       <div v-if="isOwner(post.uid)" class="text-right">
-        <action-menu :post="post" />
+        <action-menu :post="post" @outfit-submit="$emit('outfit-submit')" />
       </div>
       <!-- Memo: To ensure consistent height when there are no action button, a height of 36px is added" -->
       <v-img
@@ -59,7 +59,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["load-more-click", "like-button-click"],
+  emits: ["load-more-click", "like-button-click", "outfit-submit"],
   setup(props) {
     const { user } = useAuth();
 

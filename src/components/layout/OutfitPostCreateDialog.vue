@@ -2,7 +2,7 @@
   <outfit-post-dialog
     v-model="input"
     :loading="loading"
-    @cancel="cancel"
+    @cancel="close"
     @outfit-submit="handleSubmit"
   />
 </template>
@@ -16,7 +16,7 @@ import OutfitPostDialog from "@/components/layout/OutfitPostDialog.vue";
 
 export default defineComponent({
   name: "OutfitPostCreateDialog",
-  emits: ["outfit-submit", "cancel"],
+  emits: ["outfit-submit", "close"],
   components: {
     OutfitPostDialog,
   },
@@ -31,21 +31,25 @@ export default defineComponent({
 
     const { user } = useAuth();
 
-    const cancel = () => {
+    const { submit, loading } = useOutfitForm();
+
+    const close = () => {
       for (const key in input) {
         (input as any)[key] = INITIAL_INPUT[key as keyof Input];
       }
-      emit("cancel");
+      emit("close");
     };
 
-    const { submit, loading } = useOutfitForm();
-
-    const handleSubmit = async () => {
-      await submit(input, cancel, user.value.uid);
+    const handleSuccess = () => {
+      close();
       emit("outfit-submit");
     };
 
-    return { cancel, input, handleSubmit, loading };
+    const handleSubmit = async () => {
+      await submit(input, handleSuccess, user.value.uid);
+    };
+
+    return { close, input, handleSubmit, loading };
   },
 });
 </script>

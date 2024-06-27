@@ -18,7 +18,7 @@
       />
       <outfit-post-create-dialog
         v-else
-        @cancel="cancel"
+        @close="close"
         @outfit-submit="$emit('outfit-submit')"
       />
     </v-dialog>
@@ -42,10 +42,10 @@ export default defineComponent({
     const isDialogOpen = ref(false);
     const { user } = useAuth();
 
-    const cancel = () => {
+    const close = () => {
       isDialogOpen.value = false;
     };
-    return { isDialogOpen, cancel, user };
+    return { isDialogOpen, close, user };
   },
 });
 </script>

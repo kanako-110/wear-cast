@@ -22,8 +22,12 @@
     </v-list>
   </v-menu>
 
-  <v-dialog v-model="isEditDialogOpen" max-width="600" persistent>
-    <outfit-post-edit-dialog :post="post" @cancel="closeEditModal" />
+  <v-dialog v-model="isUpdateModalOpen" max-width="600" persistent>
+    <outfit-post-update-dialog
+      :post="post"
+      @close="closeUpdateModal"
+      @outfit-submit="$emit('outfit-submit')"
+    />
   </v-dialog>
 </template>
 
@@ -31,12 +35,12 @@
 import { defineComponent, PropType, ref } from "vue";
 import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
 import { deleteOutfitPost } from "@/pages/Home/modules/deleteOutfitPost.ts";
-import OutfitPostEditDialog from "@/pages/Home/components/OutfitPostEditDialog.vue";
+import OutfitPostUpdateDialog from "@/pages/Home/components/OutfitPostUpdateDialog.vue";
 
 export default defineComponent({
   name: "ActionMenu",
   components: {
-    OutfitPostEditDialog,
+    OutfitPostUpdateDialog,
   },
   props: {
     post: {
@@ -44,16 +48,18 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["outfit-submit"],
   setup(props) {
-    const isEditDialogOpen = ref(false);
-    const openEditDialog = () => {
-      isEditDialogOpen.value = true;
+    const isUpdateModalOpen = ref(false);
+    const openUpdateDialog = () => {
+      isUpdateModalOpen.value = true;
     };
 
-    const closeEditModal = () => {
-      isEditDialogOpen.value = false;
+    const closeUpdateModal = () => {
+      isUpdateModalOpen.value = false;
     };
 
+    // openConfirmModal
     const deletePost = async () => {
       // add confirm
       await deleteOutfitPost(props.post.id, props.post.imageUrl);
@@ -61,11 +67,11 @@ export default defineComponent({
     };
 
     const list = [
-      { title: "Edit", icon: "mdi-pencil-outline", action: openEditDialog },
+      { title: "Edit", icon: "mdi-pencil-outline", action: openUpdateDialog },
       { title: "Delete", icon: "mdi-delete-outline", action: deletePost },
     ];
 
-    return { list, isEditDialogOpen, closeEditModal };
+    return { list, isUpdateModalOpen, closeUpdateModal };
   },
 });
 </script>
