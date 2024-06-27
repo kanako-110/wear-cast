@@ -20,7 +20,7 @@
       @outfit-submit="refetchOutfitImages"
     />
   </div>
-  <div v-if="user" class="mt-3 mr-6 text-right">
+  <div v-if="user" class="my-3 mr-6 text-right">
     <sign-out />
   </div>
 </template>
