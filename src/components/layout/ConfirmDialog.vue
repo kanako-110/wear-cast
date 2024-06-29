@@ -4,7 +4,7 @@
 
     <v-card-actions>
       <v-spacer />
-      <v-btn color="indigo-darken-3" :disabled="loading" @click="close"
+      <v-btn color="indigo-darken-3" :disabled="loading" @click="handleCancel"
         >Cancel</v-btn
       >
       <v-btn
@@ -41,17 +41,17 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["close", "confirmed"],
+  emits: ["cancel", "confirmed"],
   setup(_, { emit }) {
-    const close = () => {
-      emit("close");
+    const handleCancel = () => {
+      emit("cancel");
     };
 
     const handleConfirmed = async () => {
       emit("confirmed");
     };
 
-    return { handleConfirmed, close };
+    return { handleConfirmed, handleCancel };
   },
 });
 </script>

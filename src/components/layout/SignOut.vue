@@ -7,7 +7,7 @@
     <confirm-dialog
       feature="sign out"
       :loading="signingOut"
-      @close="close"
+      @cancel="close"
       @confirmed="signOut"
     />
   </v-dialog>
@@ -31,9 +31,7 @@ export default defineComponent({
     };
 
     const signOut = async () => {
-      await signOutUser();
-      // only when its success
-      close();
+      await signOutUser(close);
     };
 
     return { isDialogOpen, signOut, signingOut, close };

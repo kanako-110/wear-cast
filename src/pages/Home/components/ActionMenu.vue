@@ -29,18 +29,28 @@
       @outfit-submit="$emit('outfit-submit')"
     />
   </v-dialog>
+
+  <v-dialog v-model="isDeleteModalOpen" max-width="600">
+    <outfit-post-delete-confirm-dialog
+      :post="post"
+      @outfit-post-deleted="handleAfterDelete"
+      @cancel="closeDeleteModal"
+    />
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
-import { deleteOutfitPost } from "@/pages/Home/modules/deleteOutfitPost.ts";
+import { deleteOutfitPost } from "@/pages/Home/compositions/useOutfitPostDelete";
 import OutfitPostUpdateDialog from "@/pages/Home/components/OutfitPostUpdateDialog.vue";
+import OutfitPostDeleteConfirmDialog from "@/pages/Home/components/OutfitPostDeleteConfirmDialog.vue";
 
 export default defineComponent({
   name: "ActionMenu",
   components: {
     OutfitPostUpdateDialog,
+    OutfitPostDeleteConfirmDialog,
   },
   props: {
     post: {
@@ -48,9 +58,11 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["outfit-submit"],
-  setup(props) {
+  emits: ["outfit-submit", "outfit-post-deleted"],
+  setup(_, { emit }) {
     const isUpdateModalOpen = ref(false);
+    const isDeleteModalOpen = ref(false);
+
     const openUpdateDialog = () => {
       isUpdateModalOpen.value = true;
     };
@@ -59,19 +71,32 @@ export default defineComponent({
       isUpdateModalOpen.value = false;
     };
 
-    // openConfirmModal
-    const deletePost = async () => {
-      // add confirm
-      await deleteOutfitPost(props.post.id, props.post.imageUrl);
-      // refetch
+    const openDeleteDialog = () => {
+      isDeleteModalOpen.value = true;
+    };
+
+    const closeDeleteModal = () => {
+      isDeleteModalOpen.value = false;
+    };
+
+    const handleAfterDelete = () => {
+      closeDeleteModal();
+      emit("outfit-post-deleted");
     };
 
     const list = [
       { title: "Edit", icon: "mdi-pencil-outline", action: openUpdateDialog },
-      { title: "Delete", icon: "mdi-delete-outline", action: deletePost },
+      { title: "Delete", icon: "mdi-delete-outline", action: openDeleteDialog },
     ];
 
-    return { list, isUpdateModalOpen, closeUpdateModal };
+    return {
+      list,
+      isUpdateModalOpen,
+      closeUpdateModal,
+      isDeleteModalOpen,
+      closeDeleteModal,
+      handleAfterDelete,
+    };
   },
 });
 </script>

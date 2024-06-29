@@ -18,6 +18,7 @@
       @load-more-click="fetchMorePosts"
       @like-button-click="postLike"
       @outfit-submit="refetchOutfitImages"
+      @outfit-post-deleted="refetchOutfitImages"
     />
   </div>
   <div v-if="user" class="my-3 mr-6 text-right">
