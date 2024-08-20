@@ -2,11 +2,7 @@
   <!-- TODO: loading UI -->
   <template v-if="!loaded"> loading... </template>
   <template v-else>
-    <v-card
-      :title="currentWeather.city_name"
-      :subtitle="todaysWeather.datetime"
-      width="60%"
-    >
+    <v-card :title="cityName" :subtitle="todaysWeather.time" width="60%">
       <!-- TODO; style -->
       <v-card-text>
         <v-row align="center">
@@ -16,18 +12,20 @@
               :src="weatherIcon.url"
               :alt="weatherIcon.description"
             />
-            <p class="text-h5 mt-4">{{ currentWeather.temp }}&deg;C</p>
+            <p class="text-h5 mt-4">
+              {{ currentWeather.temperature_2m }}&deg;C
+            </p>
           </v-col>
           <v-col class="text-center" cols="4">
             <div class="temperature-wrapper d-flex justify-center">
               <div>
                 <p class="text-body-1 mb-1">
-                  H: {{ todaysWeather.max_temp }}&deg;C
+                  H: {{ todaysWeather.temperature_2m_max }}&deg;C
                 </p>
               </div>
               <div class="ml-3">
                 <p class="text-body-1 mb-1">
-                  L: {{ todaysWeather.min_temp }} &deg;C
+                  L: {{ todaysWeather.temperature_2m_min }} &deg;C
                 </p>
               </div>
             </div>
@@ -37,7 +35,9 @@
                 icon="mdi-umbrella-outline"
                 width="24"
               />
-              <span class="text-body-2"> {{ todaysWeather.pop }}% </span>
+              <span class="text-body-2">
+                {{ todaysWeather.precipitation_probability_mean }}%
+              </span>
             </p>
           </v-col>
           <v-col class="text-center" cols="4">
@@ -71,6 +71,10 @@ export default defineComponent({
       type: Object as PropType<CurrentWeather>,
       required: true,
     },
+    cityName: {
+      type: String,
+      required: true,
+    },
     mostLikedOutfit: {
       type: Object as PropType<OutfitData>,
       default: {},
@@ -90,7 +94,10 @@ export default defineComponent({
       };
     });
 
-    return { weatherIcon, placeholderImage };
+    return {
+      weatherIcon,
+      placeholderImage,
+    };
   },
 });
 </script>

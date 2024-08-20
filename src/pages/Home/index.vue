@@ -4,6 +4,7 @@
     <weather-card
       :most-liked-outfit="mostLikedOutfit"
       :currentWeather="currentWeather"
+      :cityName="CITY.name"
       :todaysWeather="todaysWeather"
       :loaded="loadedWeatherCard"
     />
@@ -47,6 +48,13 @@ export default defineComponent({
     SignOut,
   },
   setup() {
+    const CITY = {
+      name: "Vancouver",
+      latitude: 49.2497,
+      longitude: -123.1193,
+      timezone: "America/Los_Angeles",
+    };
+
     const {
       outfitPosts,
       localLikes,
@@ -93,7 +101,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      const CITY = "Vancouver";
+      // const CITY = "vancouver";
       getCurrentWeather(CITY);
       getDailyWeatherForecast(CITY);
       fetchInitialOutfitPosts();
@@ -113,6 +121,7 @@ export default defineComponent({
       mostLikedOutfit,
       refetchOutfitImages,
       user,
+      CITY,
     };
   },
 });
