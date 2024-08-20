@@ -26,7 +26,7 @@
     <outfit-post-update-dialog
       :post="post"
       @close="closeUpdateModal"
-      @outfit-submit="$emit('outfit-submit')"
+      @outfit-update="$emit('outfit-update')"
     />
   </v-dialog>
 
@@ -42,7 +42,6 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 import type { Post } from "@/pages/Home/compositions/useOutfitPosts.ts";
-import { deleteOutfitPost } from "@/pages/Home/compositions/useOutfitPostDelete";
 import OutfitPostUpdateDialog from "@/pages/Home/components/OutfitPostUpdateDialog.vue";
 import OutfitPostDeleteConfirmDialog from "@/pages/Home/components/OutfitPostDeleteConfirmDialog.vue";
 
@@ -58,7 +57,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["outfit-submit", "outfit-post-deleted"],
+  emits: ["outfit-update", "outfit-post-deleted"],
   setup(_, { emit }) {
     const isUpdateModalOpen = ref(false);
     const isDeleteModalOpen = ref(false);

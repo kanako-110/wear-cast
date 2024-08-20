@@ -16,7 +16,7 @@ import { useOutfitPostUpdate } from "@/pages/Home/compositions/useOutfitPostUpda
 
 export default defineComponent({
   name: "OutfitPostUpdateDialog",
-  emits: ["outfit-submit", "close"],
+  emits: ["outfit-update", "close"],
   components: {
     OutfitPostDialog,
   },
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const handleSuccess = () => {
       close();
-      emit("outfit-submit");
+      emit("outfit-update");
     };
 
     const handleSubmit = async () => {

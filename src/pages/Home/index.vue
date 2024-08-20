@@ -1,5 +1,5 @@
 <template>
-  <header-toolbar @outfit-submit="refetchOutfitImages" />
+  <header-toolbar @outfit-submit="handleUpdate" />
   <div class="mt-8 d-flex justify-center">
     <weather-card
       :most-liked-outfit="mostLikedOutfit"
@@ -18,8 +18,8 @@
       :hasNewPost="hasNewPost"
       @load-more-click="fetchMorePosts"
       @like-button-click="postLike"
-      @outfit-submit="refetchOutfitImages"
-      @outfit-post-deleted="refetchOutfitImages"
+      @outfit-update="handleUpdate"
+      @outfit-post-deleted="handleUpdate"
     />
   </div>
   <div v-if="user" class="my-3 mr-6 text-right">
@@ -96,12 +96,12 @@ export default defineComponent({
       loadMoreOutfitPosts();
     };
 
-    const refetchOutfitImages = () => {
+    const handleUpdate = () => {
       fetchInitialOutfitPosts();
+      fetchPopularOutfit();
     };
 
     onMounted(() => {
-      // const CITY = "vancouver";
       getCurrentWeather(CITY);
       getDailyWeatherForecast(CITY);
       fetchInitialOutfitPosts();
@@ -119,7 +119,7 @@ export default defineComponent({
       postLike,
       localLikes,
       mostLikedOutfit,
-      refetchOutfitImages,
+      handleUpdate,
       user,
       CITY,
     };

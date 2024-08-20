@@ -4,7 +4,7 @@
       <div v-if="isOwner(post.uid)" class="text-right">
         <action-menu
           :post="post"
-          @outfit-submit="$emit('outfit-submit')"
+          @outfit-update="$emit('outfit-update')"
           @outfit-post-deleted="$emit('outfit-post-deleted')"
         />
       </div>
@@ -66,7 +66,7 @@ export default defineComponent({
   emits: [
     "load-more-click",
     "like-button-click",
-    "outfit-submit",
+    "outfit-update",
     "outfit-post-deleted",
   ],
   setup(props) {
