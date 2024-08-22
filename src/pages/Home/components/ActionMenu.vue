@@ -2,6 +2,7 @@
   <v-menu>
     <template v-slot:activator="{ props }">
       <v-btn
+        aria-label="Actions menu"
         variant="plain"
         density="comfortable"
         icon="mdi-dots-horizontal"

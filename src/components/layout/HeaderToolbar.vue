@@ -1,4 +1,3 @@
-<!-- move to shared? -->
 <template>
   <!-- forecast? -->
   <v-toolbar color="white">
@@ -6,9 +5,11 @@
     <v-toolbar-title class="text-h5 font-weight-bold title"
       >WearCast</v-toolbar-title
     >
-    <v-btn icon @click="isDialogOpen = true">
-      <v-icon aria-hidden="false" aria-label="Create post">mdi-pen-plus</v-icon>
-    </v-btn>
+    <v-btn
+      icon="mdi-pen-plus"
+      aria-label="Create post"
+      @click="isDialogOpen = true"
+    />
 
     <v-dialog v-model="isDialogOpen" max-width="600" persistent>
       <authentication-dialog

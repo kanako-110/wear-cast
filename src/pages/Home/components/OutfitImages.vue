@@ -20,6 +20,7 @@
       />
       <div class="text-right mt-2">
         <v-btn
+          aria-label="Like"
           icon="mdi-heart-outline"
           @click="$emit('like-button-click', post.id)"
         />

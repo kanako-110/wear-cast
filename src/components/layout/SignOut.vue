@@ -1,7 +1,5 @@
 <template>
-  <v-btn icon @click="isDialogOpen = true">
-    <v-icon>mdi-logout</v-icon>
-  </v-btn>
+  <v-btn icon="mdi-logout" aria-label="sign out" @click="isDialogOpen = true" />
 
   <v-dialog v-model="isDialogOpen" max-width="600">
     <confirm-dialog
