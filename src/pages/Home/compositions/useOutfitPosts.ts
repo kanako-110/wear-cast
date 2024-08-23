@@ -23,6 +23,7 @@ export type OutfitData = {
   likes: number;
   uid: string;
   fileName: string;
+  alt: string;
 };
 
 export type Post = {

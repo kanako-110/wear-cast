@@ -28,9 +28,10 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const input = reactive<Input>({
-      name: props.post.userName,
+      userName: props.post.userName,
       caption: props.post.caption,
       fileName: props.post.fileName,
+      alt: props.post.alt,
     });
 
     const { updateOutfitPost, loading } = useOutfitPostUpdate();

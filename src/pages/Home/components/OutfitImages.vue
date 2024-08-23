@@ -12,7 +12,7 @@
       <v-img
         :lazy-src="placeholderImage"
         :src="post.imageUrl"
-        alt="outfit image"
+        :alt="post.alt || 'Today\'s outfit'"
         aspect-ratio="4/3"
         class="outfit-image bg-grey-lighten-2 h-75"
         :class="{ '-no-owner': !isOwner(post.uid) }"

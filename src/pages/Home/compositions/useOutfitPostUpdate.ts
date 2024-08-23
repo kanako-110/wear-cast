@@ -16,8 +16,7 @@ export const useOutfitPostUpdate = () => {
       const docRef = doc(db, "outfits", id);
 
       await updateDoc(docRef, {
-        userName: input.name,
-        caption: input.caption,
+        ...input,
         updatedAt: serverTimestamp(),
       });
       onSuccess();

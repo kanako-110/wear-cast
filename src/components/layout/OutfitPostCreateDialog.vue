@@ -22,9 +22,10 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const INITIAL_INPUT: Input = {
-      name: "",
+      userName: "",
       caption: "",
       image: undefined,
+      alt: "",
     };
 
     const input = reactive({ ...INITIAL_INPUT });

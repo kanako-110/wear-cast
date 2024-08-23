@@ -3,7 +3,7 @@
     <!-- validation -->
     <v-card-text>
       <!-- required, string -->
-      <v-text-field v-model="modelValue.name" label="Name*" required />
+      <v-text-field v-model="modelValue.userName" label="Name*" required />
       <v-textarea v-model="modelValue.caption" label="Caption" />
       <!-- required -->
 
@@ -20,6 +20,12 @@
           <p class="ml-2">{{ modelValue.fileName }}</p>
         </div>
       </template>
+      <v-text-field
+        v-model="modelValue.alt"
+        label="ALT"
+        placeholder="e.g. Casual outfit with a denim jacket and white sneakers"
+        hint="Let's set up alt text for your outfit summaries in case images don’t load or for visually impaired users!"
+      />
     </v-card-text>
 
     <template v-slot:actions>
@@ -48,10 +54,11 @@
 import { computed, defineComponent, PropType } from "vue";
 
 export type Input = {
-  name: string;
+  userName: string;
   caption: string;
   image?: FileList;
   fileName?: string;
+  alt: string;
 };
 
 export default defineComponent({
